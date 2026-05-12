@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sologusto — EU Projects Dashboard 2026–2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F3ED;
+    --ink: #1A1714;
+    --ink-soft: #4A4540;
+    --ink-muted: #8A8480;
+    --gold: #C9A84C;
+    --gold-light: #F0E0B0;
+    --gold-pale: #FAF5E8;
+    --rust: #C45D38;
+    --rust-pale: #FAF0EB;
+    --blue: #2C5F8A;
+    --blue-pale: #EBF2F8;
+    --violet: #6B5FA0;
+    --violet-pale: #F0EEFA;
+    --green: #3A7D5C;
+    --green-pale: #EBF5EF;
+    --border: rgba(26,23,20,0.10);
+    --shadow: 0 2px 20px rgba(26,23,20,0.08);
+    --shadow-lg: 0 8px 40px rgba(26,23,20,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    padding: 2.5rem 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .header-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .header-title span { color: var(--gold); }
+  .header-meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    font-family: 'DM Mono', monospace;
+    margin-top: 0.5rem;
+  }
+  .header-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+  }
+  .stat-pill .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .stat-pill .lbl {
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ── ALERT BANNER ── */
+  .alert-banner {
+    background: var(--rust);
+    color: #fff;
+    padding: 0.7rem 3rem;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+  }
+  .alert-banner .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    animation: pulse 1.5s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline-section {
+    margin-bottom: 2.5rem;
+  }
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .timeline-track {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .tl-months {
+    display: grid;
+    grid-template-columns: 120px repeat(18, 1fr);
+    gap: 2px;
+    min-width: 700px;
+  }
+  .tl-header-cell {
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+    padding: 4px 2px;
+  }
+  .tl-row-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    padding-right: 8px;
+    line-height: 1.3;
+  }
+  .tl-cell {
+    height: 28px;
+    border-radius: 3px;
+    background: var(--cream);
+  }
+  .tl-cell.active-rust { background: var(--rust); opacity: 0.85; }
+  .tl-cell.active-violet { background: var(--violet); opacity: 0.85; }
+  .tl-cell.active-blue { background: var(--blue); opacity: 0.85; }
+  .tl-cell.deadline {
+    position: relative;
+  }
+  .tl-cell.deadline::after {
+    content: '▲';
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: var(--rust);
+  }
+  .tl-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .tl-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .tl-legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── PROJECT CARDS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .proj-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .proj-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 0.6rem;
+  }
+  .card-emoji { font-size: 1.5rem; line-height: 1; }
+  .card-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-rust { background: var(--rust-pale); color: var(--rust); }
+  .badge-violet { background: var(--violet-pale); color: var(--violet); }
+  .badge-blue { background: var(--blue-pale); color: var(--blue); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .card-subtitle {
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .card-body { padding: 1.25rem 1.5rem; }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .meta-item {
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .meta-item .lbl {
+    font-size: 10px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 3px;
+  }
+  .meta-item .val {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .meta-item.full { grid-column: 1 / -1; }
+
+  .partners-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .partner-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .partner-tag .flag { font-size: 13px; }
+
+  .budget-bar {
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 1rem;
+  }
+  .budget-label {
+    font-size: 10px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .budget-segments {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    gap: 1px;
+    margin-bottom: 8px;
+  }
+  .budget-seg { border-radius: 2px; }
+  .budget-legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .budget-leg-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--ink-soft);
+  }
+  .budget-leg-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .deadline-box {
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .deadline-box .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .deadline-rust { background: var(--rust-pale); color: #7A2A15; border: 1px solid rgba(196,93,56,0.2); }
+  .deadline-violet { background: var(--violet-pale); color: #3D3460; border: 1px solid rgba(107,95,160,0.2); }
+  .deadline-blue { background: var(--blue-pale); color: #1A3D5C; border: 1px solid rgba(44,95,138,0.2); }
+
+  /* ── OUTPUTS TABLE ── */
+  .outputs-section { margin-bottom: 2.5rem; }
+  .outputs-table {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .outputs-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .outputs-table th {
+    background: var(--ink);
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .outputs-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--ink-soft);
+  }
+  .outputs-table tr:last-child td { border-bottom: none; }
+  .outputs-table tr:hover td { background: var(--cream); }
+  .proj-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+
+  /* ── NEXT STEPS ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .step-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    box-shadow: var(--shadow);
+  }
+  .step-card .step-proj {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .step-card .step-text {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .step-card .step-when {
+    font-size: 10px;
+    color: var(--ink-muted);
+    font-family: 'DM Mono', monospace;
+    margin-top: 6px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+  }
+  footer span { color: var(--gold); }
+
+  @media (max-width: 600px) {
+    header { padding: 1.5rem 1.25rem; }
+    main { padding: 1.5rem 1rem 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .meta-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="header-logo">Sologusto · VSI Tik Skoniui</div>
+      <h1 class="header-title">EU Projects <span>Dashboard</span></h1>
+      <p class="header-meta">Aggiornato: Maggio 2026 · 3 progetti attivi</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat-pill">
+        <span class="val">3</span>
+        <span class="lbl">Progetti attivi</span>
+      </div>
+      <div class="stat-pill">
+        <span class="val">€320k</span>
+        <span class="lbl">Grant potenziale</span>
+      </div>
+      <div class="stat-pill">
+        <span class="val">Mar 2027</span>
+        <span class="lbl">Prossime scadenze</span>
+      </div>
+      <div class="stat-pill">
+        <span class="val">IT · LT</span>
+        <span class="lbl">Paesi coinvolti</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="alert-banner">
+  <div class="dot"></div>
+  ⚠️ Marzo 2027: mese critico — scadono in parallelo KA210-SCH (Bio Odyssey) e KA210-VET (NAT-TECH). Pianifica subito!
+</div>
+
+<main>
+
+  <!-- TIMELINE -->
+  <div class="timeline-section">
+    <p class="section-label">Timeline 2026–2027</p>
+    <div class="timeline-track">
+      <div class="tl-months">
+        <!-- Headers -->
+        <div class="tl-header-cell"></div>
+        <div class="tl-header-cell">Mag</div>
+        <div class="tl-header-cell">Giu</div>
+        <div class="tl-header-cell">Lug</div>
+        <div class="tl-header-cell">Ago</div>
+        <div class="tl-header-cell">Set</div>
+        <div class="tl-header-cell">Ott</div>
+        <div class="tl-header-cell">Nov</div>
+        <div class="tl-header-cell">Dic</div>
+        <div class="tl-header-cell">Gen</div>
+        <div class="tl-header-cell">Feb</div>
+        <div class="tl-header-cell" style="color:var(--rust);font-weight:700;">Mar</div>
+        <div class="tl-header-cell">Apr</div>
+        <div class="tl-header-cell">Mag</div>
+        <div class="tl-header-cell">Giu</div>
+        <div class="tl-header-cell">Lug</div>
+        <div class="tl-header-cell">Ago</div>
+        <div class="tl-header-cell">Set</div>
+        <div class="tl-header-cell">Dic</div>
+
+        <!-- Bio Odyssey (KA210-SCH) — candidatura ora → Mar 2027, esecuzione dopo -->
+        <div class="tl-row-label">🎓 Bio Odyssey KA210-SCH</div>
+        <div class="tl-cell active-rust"></div><!-- Mag -->
+        <div class="tl-cell active-rust"></div><!-- Giu -->
+        <div class="tl-cell active-rust"></div><!-- Lug -->
+        <div class="tl-cell active-rust"></div><!-- Ago -->
+        <div class="tl-cell active-rust"></div><!-- Set -->
+        <div class="tl-cell active-rust"></div><!-- Ott -->
+        <div class="tl-cell active-rust"></div><!-- Nov -->
+        <div class="tl-cell active-rust"></div><!-- Dic -->
+        <div class="tl-cell active-rust"></div><!-- Gen -->
+        <div class="tl-cell active-rust"></div><!-- Feb -->
+        <div class="tl-cell active-rust deadline"></div><!-- Mar ⚠ -->
+        <div class="tl-cell" style="background:var(--gold-pale);"></div><!-- Apr -->
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+
+        <!-- NAT-TECH (KA210-VET) — candidatura ora → Mar 2027 -->
+        <div class="tl-row-label">🧀 NAT-TECH KA210-VET</div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet"></div>
+        <div class="tl-cell active-violet deadline"></div><!-- Mar ⚠ -->
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+
+        <!-- MEDIA — call Ott 2026, deadline Feb 2027 -->
+        <div class="tl-row-label">🥽 Immersive Kitchen MEDIA</div>
+        <div class="tl-cell"></div><!-- Mag -->
+        <div class="tl-cell"></div><!-- Giu -->
+        <div class="tl-cell"></div><!-- Lug -->
+        <div class="tl-cell"></div><!-- Ago -->
+        <div class="tl-cell"></div><!-- Set -->
+        <div class="tl-cell active-blue"></div><!-- Ott — call apre -->
+        <div class="tl-cell active-blue"></div>
+        <div class="tl-cell active-blue"></div>
+        <div class="tl-cell active-blue"></div>
+        <div class="tl-cell active-blue deadline"></div><!-- Feb -->
+        <div class="tl-cell"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+        <div class="tl-cell" style="background:var(--gold-pale);"></div>
+      </div>
+
+      <div class="tl-legend">
+        <div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--rust);"></div> Preparazione candidatura</div>
+        <div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--violet);"></div> Preparazione NAT-TECH</div>
+        <div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--blue);"></div> Finestra MEDIA (ott–feb)</div>
+        <div class="tl-legend-item"><div class="tl-legend-dot" style="background:var(--gold-light); border:1px solid #C9A84C;"></div> Esecuzione progetto</div>
+        <div class="tl-legend-item">▲ Scadenza candidatura</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT CARDS -->
+  <p class="section-label">Progetti</p>
+  <div class="projects-grid">
+
+    <!-- CARD 1 — Bio Odyssey -->
+    <div class="proj-card">
+      <div class="card-header">
+        <div class="card-accent" style="background:var(--rust);"></div>
+        <div class="card-top">
+          <span class="card-emoji">🎓</span>
+          <span class="card-badge badge-rust">Erasmus+ KA210-SCH</span>
+        </div>
+        <h2 class="card-title">The Bio Odyssey<br>Nico Basilico: Missione Mediterranea</h2>
+        <p class="card-subtitle">Small-scale Partnership · School Education · SMPF (LT)</p>
+      </div>
+      <div class="card-body">
+        <div class="meta-grid">
+          <div class="meta-item"><div class="lbl">Grant totale</div><div class="val">€ 60.000</div></div>
+          <div class="meta-item"><div class="lbl">Durata</div><div class="val">12 mesi</div></div>
+          <div class="meta-item"><div class="lbl">Capofila</div><div class="val">Sologusto (LT)</div></div>
+          <div class="meta-item"><div class="lbl">Modello</div><div class="val">Lump Sum</div></div>
+        </div>
+        <div class="partners-row">
+          <div class="partner-tag"><span class="flag">🇱🇹</span> Sologusto (coord.)</div>
+          <div class="partner-tag"><span class="flag">🇮🇹</span> E.R.I.C.A. Coop.</div>
+        </div>
+        <div class="budget-bar">
+          <div class="budget-label">Distribuzione budget</div>
+          <div class="budget-segments">
+            <div class="budget-seg" style="background:var(--rust);flex:41.5;"></div>
+            <div class="budget-seg" style="background:#D4956A;flex:18.5;"></div>
+          </div>
+          <div class="budget-legend">
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:var(--rust);"></div> Sologusto ~€41.500</div>
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:#D4956A;"></div> E.R.I.C.A. ~€18.500</div>
+          </div>
+        </div>
+        <div class="deadline-box deadline-rust">
+          <span class="icon">⚠️</span>
+          <div><strong>Scadenza candidatura: Marzo 2027</strong><br>⚠️ Ricorda: aggiornare domani i 5 documenti Drive con la nuova data (IT v2, EN, Memorandum, ProjectSummary, ConsortiumAgreement)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 — NAT-TECH -->
+    <div class="proj-card">
+      <div class="card-header">
+        <div class="card-accent" style="background:var(--violet);"></div>
+        <div class="card-top">
+          <span class="card-emoji">🧀</span>
+          <span class="card-badge badge-violet">Erasmus+ KA210-VET · Nuovo</span>
+        </div>
+        <h2 class="card-title">NAT-TECH<br>Natural Heritage & Gastronomic Routes</h2>
+        <p class="card-subtitle">Small-scale Partnership · VET · INAPP (IT)</p>
+      </div>
+      <div class="card-body">
+        <div class="meta-grid">
+          <div class="meta-item"><div class="lbl">Grant totale</div><div class="val">€ 60.000</div></div>
+          <div class="meta-item"><div class="lbl">Durata</div><div class="val">12 mesi (2027)</div></div>
+          <div class="meta-item"><div class="lbl">Capofila</div><div class="val">Vecchio Varzi S.r.l.</div></div>
+          <div class="meta-item"><div class="lbl">Modello</div><div class="val">Lump Sum</div></div>
+        </div>
+        <div class="partners-row">
+          <div class="partner-tag"><span class="flag">🇮🇹</span> Vecchio Varzi (coord.)</div>
+          <div class="partner-tag"><span class="flag">🇮🇹</span> E.R.I.C.A. Coop.</div>
+          <div class="partner-tag"><span class="flag">🇱🇹</span> Sologusto</div>
+          <div class="partner-tag"><span class="flag">🎓</span> UniMi (consulente)</div>
+        </div>
+        <div class="budget-bar">
+          <div class="budget-label">Distribuzione budget — €60.000</div>
+          <div class="budget-segments">
+            <div class="budget-seg" style="background:var(--rust);flex:15;"></div>
+            <div class="budget-seg" style="background:var(--green);flex:15;"></div>
+            <div class="budget-seg" style="background:var(--violet);flex:30;"></div>
+          </div>
+          <div class="budget-legend">
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:var(--rust);"></div> Vecchio Varzi €15k</div>
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:var(--green);"></div> E.R.I.C.A. €15k</div>
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:var(--violet);"></div> Sologusto €30k</div>
+          </div>
+        </div>
+        <div class="deadline-box deadline-violet">
+          <span class="icon">📅</span>
+          <div><strong>Scadenza candidatura: Marzo 2027 (Prima finestra)</strong><br>Documento di candidatura già pronto. Output: Natural Food Manual · 3 Masterclass IT→LT · Baltic Food Heritage Path</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 — MEDIA -->
+    <div class="proj-card">
+      <div class="card-header">
+        <div class="card-accent" style="background:var(--blue);"></div>
+        <div class="card-top">
+          <span class="card-emoji">🥽</span>
+          <span class="card-badge badge-blue">Creative Europe MEDIA</span>
+        </div>
+        <h2 class="card-title">The Immersive Kitchen<br>Nico Basilico VR Experience</h2>
+        <p class="card-subtitle">CREA-MEDIA-2027-DEVVGIM · EACEA</p>
+      </div>
+      <div class="card-body">
+        <div class="meta-grid">
+          <div class="meta-item"><div class="lbl">Grant max</div><div class="val">€ 200.000</div></div>
+          <div class="meta-item"><div class="lbl">Funding rate</div><div class="val">60% lump sum</div></div>
+          <div class="meta-item"><div class="lbl">Coordinatore</div><div class="val">NIEKO (LT)</div></div>
+          <div class="meta-item"><div class="lbl">IP Owner</div><div class="val">Sologusto</div></div>
+          <div class="meta-item"><div class="lbl">Quota Sologusto</div><div class="val">~€ 60.000</div></div>
+          <div class="meta-item"><div class="lbl">Piattaforma</div><div class="val">Meta Quest VR</div></div>
+        </div>
+        <div class="partners-row">
+          <div class="partner-tag"><span class="flag">🇱🇹</span> NIEKO (coord.)</div>
+          <div class="partner-tag"><span class="flag">🇱🇹</span> Sologusto (IP)</div>
+          <div class="partner-tag"><span class="flag">🇮🇹</span> E.R.I.C.A. Coop.</div>
+        </div>
+        <div class="budget-bar">
+          <div class="budget-label">Distribuzione budget — €200.000</div>
+          <div class="budget-segments">
+            <div class="budget-seg" style="background:var(--blue);flex:120;"></div>
+            <div class="budget-seg" style="background:#5B9EC9;flex:60;"></div>
+            <div class="budget-seg" style="background:#A0C4E2;flex:20;"></div>
+          </div>
+          <div class="budget-legend">
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:var(--blue);"></div> NIEKO €120k</div>
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:#5B9EC9;"></div> Sologusto €60k</div>
+            <div class="budget-leg-item"><div class="budget-leg-dot" style="background:#A0C4E2;"></div> E.R.I.C.A. €20k</div>
+          </div>
+        </div>
+        <div class="deadline-box deadline-blue">
+          <span class="icon">🔔</span>
+          <div><strong>Call apre: ~Ottobre 2026 · Deadline: ~Febbraio 2027</strong><br>Urgente: firma NDA con NIEKO → Option Agreement & IP Licence entro estate 2026 → Prototipo VR per ottobre 2026</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OUTPUTS TABLE -->
+  <div class="outputs-section">
+    <p class="section-label">Output principali</p>
+    <div class="outputs-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Progetto</th>
+            <th>Output / Deliverable</th>
+            <th>KPI</th>
+            <th>Responsabile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="proj-dot" style="background:var(--rust);"></div>Bio Odyssey</td>
+            <td>Gioco educativo web HTML5 (Nico Basilico)</td>
+            <td>Scuole IT + LT</td>
+            <td>Sologusto</td>
+          </tr>
+          <tr>
+            <td><div class="proj-dot" style="background:var(--violet);"></div>NAT-TECH</td>
+            <td>Natural Food Manual (IT/LT/EN)</td>
+            <td>Min. 40 pp. digitale + stampa</td>
+            <td>E.R.I.C.A. + UniMi</td>
+          </tr>
+          <tr>
+            <td><div class="proj-dot" style="background:var(--violet);"></div>NAT-TECH</td>
+            <td>3 Masterclass (Vilnius · Kaunas · Klaipėda)</td>
+            <td>50+ professionisti VET certificati</td>
+            <td>Sologusto + Vecchio Varzi</td>
+          </tr>
+          <tr>
+            <td><div class="proj-dot" style="background:var(--violet);"></div>NAT-TECH</td>
+            <td>Baltic Food Heritage Path — mappa web + cartacea</td>
+            <td>15+ produttori · 500 copie</td>
+            <td>Sologusto</td>
+          </tr>
+          <tr>
+            <td><div class="proj-dot" style="background:var(--violet);"></div>NAT-TECH</td>
+            <td>Video-tutorial stagionatura naturale</td>
+            <td>Min. 3 video IT/LT subtitles</td>
+            <td>Vecchio Varzi + E.R.I.C.A.</td>
+          </tr>
+          <tr>
+            <td><div class="proj-dot" style="background:var(--blue);"></div>MEDIA</td>
+            <td>VR Experience — Meta Quest 2/3/Pro</td>
+            <td>Commercial release + DLC packs</td>
+            <td>NIEKO + Sologusto</td>
+          </tr>
+          <tr>
+            <td><div class="proj-dot" style="background:var(--blue);"></div>MEDIA</td>
+            <td>Nico Pass — cross-progression system</td>
+            <td>Funnel school → VR consumer</td>
+            <td>NIEKO + Sologusto</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="outputs-section">
+    <p class="section-label">Prossimi passi urgenti</p>
+    <div class="steps-grid">
+      <div class="step-card" style="border-top: 2px solid var(--rust);">
+        <div class="step-proj" style="color:var(--rust);">🎓 Bio Odyssey</div>
+        <div class="step-text">Aggiornare i 5 documenti Drive con la nuova scadenza Marzo 2027</div>
+        <div class="step-when">→ Domani</div>
+      </div>
+      <div class="step-card" style="border-top: 2px solid var(--rust);">
+        <div class="step-proj" style="color:var(--rust);">🎓 Bio Odyssey</div>
+        <div class="step-text">Raccogliere Letters of Intent dalle scuole IT e LT</div>
+        <div class="step-when">→ Giugno–Luglio 2026</div>
+      </div>
+      <div class="step-card" style="border-top: 2px solid var(--violet);">
+        <div class="step-proj" style="color:var(--violet);">🧀 NAT-TECH</div>
+        <div class="step-text">Firma del Consortium Agreement (Vecchio Varzi + E.R.I.C.A. + Sologusto)</div>
+        <div class="step-when">→ Giugno 2026</div>
+      </div>
+      <div class="step-card" style="border-top: 2px solid var(--violet);">
+        <div class="step-proj" style="color:var(--violet);">🧀 NAT-TECH</div>
+        <div class="step-text">Confermare accordo con UniMi per consulenza scientifica</div>
+        <div class="step-when">→ Estate 2026</div>
+      </div>
+      <div class="step-card" style="border-top: 2px solid var(--blue);">
+        <div class="step-proj" style="color:var(--blue);">🥽 MEDIA</div>
+        <div class="step-text">Firma NDA con NIEKO (prerequisito per tutto il resto)</div>
+        <div class="step-when">→ Urgente — ora</div>
+      </div>
+      <div class="step-card" style="border-top: 2px solid var(--blue);">
+        <div class="step-proj" style="color:var(--blue);">🥽 MEDIA</div>
+        <div class="step-text">Firma Option Agreement + IP Licence con NIEKO</div>
+        <div class="step-when">→ Estate 2026</div>
+      </div>
+      <div class="step-card" style="border-top: 2px solid var(--blue);">
+        <div class="step-proj" style="color:var(--blue);">🥽 MEDIA</div>
+        <div class="step-text">Prototipo VR funzionante — richiesto da EACEA per punteggio massimo</div>
+        <div class="step-when">→ Entro Ottobre 2026</div>
+      </div>
+      <div class="step-card" style="border-top: 2px solid var(--gold);">
+        <div class="step-proj" style="color:var(--gold);">⚠️ Tutti i progetti</div>
+        <div class="step-text">Marzo 2027 = mese critico con 2 scadenze Erasmus+ in parallelo. Pianificare risorse ora!</div>
+        <div class="step-when">→ Pianificare entro Settembre 2026</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Sologusto · VSI Tik Skoniui · Vilnius, Lituania · info@sologusto.com · <span>sologusto.com</span><br>
+  Dashboard EU Projects — uso interno — aggiornato Maggio 2026
+</footer>
+
+</body>
+</html>
