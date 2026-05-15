@@ -1,0 +1,37 @@
+[
+  {
+    "nome": "🎓 Bio Odyssey — Nico Basilico",
+    "pct": 35,
+    "grant": "€60.000",
+    "scadenza": "Mar 2027",
+    "stato": "In preparazione"
+  },
+  {
+    "nome": "🧀 NAT-TECH — Natural Heritage & Gastronomic Routes",
+    "pct": 55,
+    "grant": "€60.000",
+    "scadenza": "Mar 2027",
+    "stato": "Candidatura quasi pronta"
+  },
+  {
+    "nome": "🌱 MESH-GROW — Resilient Off-Grid Agri-Tech",
+    "pct": 25,
+    "grant": "€60.000",
+    "scadenza": "Mar 2027",
+    "stato": "Urgente: trovare partner LT"
+  },
+  {
+    "nome": "🥽 The Immersive Kitchen — VR Experience",
+    "pct": 20,
+    "grant": "€200.000",
+    "scadenza": "Feb 2027",
+    "stato": "Urgente: firma NDA con NIEKO"
+  },
+  {
+    "nome": "🚁 U-DACE mini — Urban Drone & Mesh",
+    "pct": 10,
+    "grant": "€60.000",
+    "scadenza": "Ott 2027",
+    "stato": "Rinviato a 2027"
+  }
+]
